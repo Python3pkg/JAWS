@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import csv
-from core import JAWSOutput
+from .core import JAWSOutput
 
 class CSVOutput(JAWSOutput):
     '''
@@ -40,7 +40,7 @@ class CSVOutput(JAWSOutput):
 
     def store_object(self, obj):
         cleaned_obj = dict()
-        print "storing object: {obj}".format(obj=obj)
-        for key, value in dict(obj).items():
+        print("storing object: {obj}".format(obj=obj))
+        for key, value in list(dict(obj).items()):
             cleaned_obj[key]=self._clean_string(value)
         self.writer.writerow(cleaned_obj)

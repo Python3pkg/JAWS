@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import requests
 import mechanize
-import cookielib
-from core import JAWSResource
+import http.cookiejar
+from .core import JAWSResource
         
 class URIPatternResource(JAWSResource):
     def __init__(self, request_kwargs, uri_format, id_range):
@@ -20,7 +20,7 @@ class AuthURIPatternResource(URIPatternResource):
         br = mechanize.Browser()
 
         # Cookie Jar
-        cj = cookielib.LWPCookieJar()
+        cj = http.cookiejar.LWPCookieJar()
         br.set_cookiejar(cj)
 
         # Browser options
@@ -38,7 +38,7 @@ class AuthURIPatternResource(URIPatternResource):
 
         br.open(auth_uri)
         br.select_form(name="loginform")
-        for key, value in creds.items():
+        for key, value in list(creds.items()):
             br.form[key]=value
         auth_response = br.submit()
         if auth_response.code == 200:
